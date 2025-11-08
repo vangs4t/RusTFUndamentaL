@@ -50,7 +50,7 @@ fn array_feature() {
     println!("{panjang}");
     println!("{:?}",slicing);
 }
-const MINIMUM :i32 = 20;
+// const MINIMUM :i32 = 20;
 
 #[test]
 fn constanta() {
@@ -69,3 +69,111 @@ amat sangat manuk akal
 sedangkan String bisa melebar data nya dan tidak mengganti datanya sama sekali wow
 amat sangat mantap */
 
+#[test]
+fn ifelse_statement() {
+    let nilai = 75;
+    let info = if nilai >= 75 {
+        "Cukup"
+    } else if nilai >= 80{
+        "Baik"
+    } else if nilai >= 90{
+        "Bagus"
+    } else {
+        "Sangat Bagus"
+    };
+
+    println!("{info}");
+}
+
+#[test]
+fn looping() {
+    let mut n1 = 0;
+    /*Ini merupakan contoh loop sederhana  */
+    loop {
+        n1 += 1;
+
+        if n1 > 10 {
+            break;
+        } else if n1 %2 == 0 {
+            continue;
+        }
+
+        println!("Counter : {n1}");
+    }
+}
+
+#[test]
+fn looping_in_let() {
+    let mut  counter = 0;
+
+    let result = loop {
+        counter += 1;
+
+        if counter > 10 {
+            break counter *2;
+        }
+    };
+
+    println!("{result}");
+}
+
+#[test]
+fn while_loop() {
+    let mut counter = 10;
+
+    while counter > 0 {
+        counter -= 1;
+
+        println!("{counter}");
+    };
+}
+
+fn recursive_function(n: i32) -> i32{
+    if n == 1 {
+        return 1;
+    }
+
+    n * recursive_function(n -1)
+}
+#[test]
+fn faktorial(){
+    let result = recursive_function(5);
+
+    println!("{result}");
+}
+
+fn say_number(n :i32) -> i32{
+    n *2
+}
+
+fn say_hai(say :&String){
+    print!("Halo {}", say);
+}
+
+#[test]
+fn ownership_function() {
+    println!("halo nomor {}", say_number(5));
+
+    let nama = String::from("Naufal");
+
+    say_hai(&nama);
+    /*Alangkah baiknya jika kita membuat parameter 
+    yang datanya disimpan di heap menggunakan borrowing atau tanda & */
+    println!("Halo {}", nama);
+}
+
+fn nama_variable(first_name: String, last_name: String) -> String {
+    format!("{} {}", first_name, last_name)
+}
+
+#[test]
+fn the_name() {
+    let first_name = String::from("Naufal");
+    let last_name = String::from("Abdul");
+    let full_name = nama_variable(first_name, last_name);
+
+    println!("{}", full_name);
+    println!("{}", first_name);
+    println!("{}", last_name);
+
+}
