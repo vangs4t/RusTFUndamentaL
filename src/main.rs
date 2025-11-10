@@ -1,3 +1,6 @@
+use core::num;
+use std::ops::Index;
+
 struct User {
     nama: String,
     umur: u32,
@@ -166,14 +169,128 @@ fn nama_variable(first_name: String, last_name: String) -> String {
     format!("{} {}", first_name, last_name)
 }
 
-#[test]
-fn the_name() {
-    let first_name = String::from("Naufal");
-    let last_name = String::from("Abdul");
-    let full_name = nama_variable(first_name, last_name);
+// #[test]
+// fn the_name() {
+//     let first_name = String::from("Naufal");
+//     let last_name = String::from("Abdul");
+//     let full_name = nama_variable(first_name, last_name);
 
-    println!("{}", full_name);
-    println!("{}", first_name);
-    println!("{}", last_name);
+//     println!("{}", full_name);
+//     println!("{}", first_name);
+//     println!("{}", last_name);
+
+// }
+
+/*Kalo mutable boorowing itu lifecycle nya hanya boleh ada satu */
+
+fn the_borrow(secun : &mut String) {
+    secun.push_str(" Jhonny");
+}
+
+#[test]
+fn mutable_borrowing() {
+    let mut variable = String::from("Naufal");
+
+    /*
+    Kita bisa mengubah data variable beberapakali 
+    asal logikanya diluar scope variable induk */
+    the_borrow(&mut variable); 
+    the_borrow(&mut variable);
+    the_borrow(&mut variable);
+
+    println!("The name is :{}", variable);
+
+}
+
+#[test]
+fn mutable_variables() {
+    let mut variable = String::from("Naufal");
+
+    let result= &mut variable;
+    // let result1 = &mut variable;
+
+    the_borrow(result);
+    
+
+    println!("The name is :{}", variable);
+
+}
+
+struct Coworkers{
+    name: String,
+    username :String,
+    id : u32,
+}
+/*
+Struct juga bisa memiliki turunan yaitu method */
+
+impl Coworkers {
+    // &self digunakan untuk memanggil field kalo di java itu this
+    fn user(&self, nama : &str){
+        println!("Halo {}, nama saya adalah {}", self.name, nama);
+    }
+    // ini adalah associated function atau di java static function
+    fn new(input : u32) -> u32{
+        input
+    }
+}
+
+#[test]
+fn calling_by_name() {
+    
+    let result = Coworkers{
+        name : String::from("Naufal"),
+        username : String::from("Jhonny").to_lowercase(),
+        id : 2345,
+
+    };
+
+    result.user("Agartha");
+    let id = Coworkers::new(23);
+
+    println!("id anda : {}", id);
+}
+
+#[test]
+fn user_data() {
+
+    let name= String::from("Naufal b");
+    let username = String::from("jhonnnycage");
+    /*Untuk mengambil data di field struct kita bisa membuat variable
+    dari struct nya terlebih dahulu
+    lalu jika data di field struct nya belum di implementasi kan maka
+    kita hanya perlu membuatnya di dalam variable seperti dibawah */
+    let result = Coworkers{
+        name : String::from("Naufal"),
+        username : String::from("Jhonny").to_lowercase(),
+        id : 2345,
+
+    };
+    // untuk pemanggilan field tiggal panggil variable.namafield
+
+    println!("Halo ,{}", result.name);
+
+    /*Kita juga bisa mengcopy semua isi field ke dalam variable baru 
+    jika ingin 
+    namun perlu di ingat kalau reference nya tidak di implementasikan otomatis 
+    ownernya berpindah ke variable yang baru
+    dan kita tak bisa mengakses field yang lama*/
+    let result1 = Coworkers{..result};
+
+    println!("Hao {}", result1.name);
+    
+    /*Sebenarnya kita juga bisa mengisi otomatis field dengan data jika
+    kita membuat nama variable yang sama dengan nama field */
+    let result2 = Coworkers{
+        name, // kita bisa menggunakan variable yang sebelumnya dibuat 
+        username, // untuk mengisi field asal nama nya sama
+        ..result
+    };
+
+    println!("{}", result2.name);
+    println!("{}", result2.username);
+    println!("{}", result2.id);
+
+
 
 }
