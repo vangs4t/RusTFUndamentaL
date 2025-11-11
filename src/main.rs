@@ -13,6 +13,14 @@ mod model {
         }
     }
 }
+mod second{
+    pub fn say_halo(){
+        println!("Halo from second");
+    }
+}
+mod first;
+use first::say_halo;
+use second::say_halo as say_halo_second;
 
 struct User {
     nama: String,
@@ -27,6 +35,9 @@ fn main() {
     };
 
     atmin.login("admin");
+
+    say_halo("Jhoni");
+    say_halo_second();
 }
 
 #[test]
@@ -402,14 +413,14 @@ struct Sapa<'a>{
     pesan: &'a str,
 }
 
-#[test]
-fn say_halo() {
-    let halo = Sapa{
-        pesan : "Halo rust",
-    };
+// #[test]
+// fn say_halo() {
+//     let halo = Sapa{
+//         pesan : "Halo rust",
+//     };
 
-    println!("{}", halo.pesan);
-}
+//     println!("{}", halo.pesan);
+// }
 
 /*Enum java sama enum rust punya banyak kesamaaan sih */
 enum Gender {
