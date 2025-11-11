@@ -444,3 +444,58 @@ fn kondisi_cuaca() {
     let result2 = Cuaca::Hujan(17);
     result2.tampilkan()
 }
+
+#[test]
+fn pattern_fundamental() {
+
+    let angka = 3;
+    /*Dalam pattern matching kita bisa menggunakan beberapa 
+    cara  */
+    let hasil = match angka {
+        1 => "Satu", // cara paling dasar
+        2 | 3 => "Dua atau Tiga", // menggunakan usecase or 
+        4..=6 => "Prima", // menggunakan range tapi hanya range ini saja
+        _ => "Invalid" // strip bawah sebagai default atau else 
+    };
+
+    println!("{}", hasil);
+}
+
+/*Kita bisa destructuring data di tuple dan struct */
+
+struct Data{
+    id: u32,
+    address: String,
+    date: String,
+}
+
+#[test]
+fn pattern_struct() {
+    let hasil = Data{
+        id: 3241,
+        address : String::from("Kuningan"),
+        date : String::from("Juli"),
+    };
+    
+    match hasil {
+        /*Kita bisa mengambil beberapa field di dalam struct menggunakan
+        pattern matching */
+        Data{id,..} if id > 1000 => println!("Kita mendapatkannya"),
+        Data{..} => println!("Kemana dia?"),
+    }
+
+
+}
+
+#[test]
+fn rust_guard_pattern() {
+    let angka = Some(8);
+
+    match angka {
+        Some(x) if x < 10 => println!("tailo"),
+        Some(x) if x > 10 => println!("Bravo"),
+
+        None => println!("Nothing"),
+        Some(x) => println!("Kanjut? {}",x),
+    }
+}
