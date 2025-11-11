@@ -1,5 +1,5 @@
 use core::num;
-use std::ops::Index;
+use std::{ops::Index, path::StripPrefixError};
 
 struct User {
     nama: String,
@@ -293,4 +293,154 @@ fn user_data() {
 
 
 
+}
+
+
+struct Client{
+    name : String,
+    id : i32,
+}
+
+#[test]
+fn simple() {
+    let costumer = Client{
+        name : String::from("Monalisa"),
+        id : 719300,
+    };
+
+    println!("Selamat datang {}, dengan id {}", costumer.name, costumer.id);
+}
+
+struct Laptop {
+    merek : String,
+    harga : u32,
+}
+
+impl Laptop {
+    fn info(&self) {
+        println!("Laptop {} seharga {}", self.merek, self.harga);
+    }
+}
+
+#[test]
+fn mean() {
+    let l = Laptop {
+        merek: String::from("Lenovo"),
+        harga: 8_000_000,
+    };
+
+    l.info();
+}
+
+
+struct Kordinat(f64, f64);
+
+#[test]
+fn position() {
+    let posisi = Kordinat(-6.38244, 10.38539);
+
+    let lat = posisi.0;
+    let long = posisi.1;
+
+    println!("{}", lat);
+    println!("{}", long);
+}
+
+struct Server;
+
+impl Server {
+    fn start(){
+        print!("Server terhubung...");
+    }
+}
+
+#[test]
+fn server_s() {
+    Server::start();
+}
+
+struct Alamat<'a> {
+    kota : &'a str,
+    negara: &'a str,
+}
+
+struct Person<'a>{
+    nama:  String,
+    alamat :Alamat<'a>,
+}
+
+#[test]
+fn manusa() {
+    let alamat = Alamat{
+        kota : "Kuningan",
+        negara : "Jenapa",
+    };
+
+    let person = Person{
+        nama : String::from("Naufal"),
+        alamat,
+    };
+
+    println!("Nama :{}, Kota : {}, Negara : {}", person.nama, person.alamat.kota, person.alamat.negara); 
+}
+
+struct Sapa<'a>{
+    pesan: &'a str,
+}
+
+#[test]
+fn say_halo() {
+    let halo = Sapa{
+        pesan : "Halo rust",
+    };
+
+    println!("{}", halo.pesan);
+}
+
+/*Enum java sama enum rust punya banyak kesamaaan sih */
+enum Gender {
+    Pria,
+    Wanita,
+}
+
+impl Gender {
+    fn client(&self, toilet: String) {
+        println!("Selamat menikmati");
+    }
+}
+
+#[test]
+fn test_gender() {
+    let sex = Gender::Pria;
+    sex.client(String::from("Jhonny"));
+
+}
+
+enum Cuaca{
+    Cerah,
+    Hujan(u32),
+    Mendung(String),
+}
+impl Cuaca{
+    fn tampilkan(&self){
+        /* Saat melakukan pattern maching pada enum yang memiliki data
+        kita hanya perlu memasukan nama variable nya aja pada datanya
+        karena nanti datanya kita bisa ubah saat pembuatan variable
+        di kondisi yang akan dieksekusi */
+        match self {
+            Cuaca::Cerah => println!("Matahari bersinar terang"),
+            Cuaca::Hujan(number) => println!("Banyak air jatuh"),
+            Cuaca::Mendung(kondisi) => println!("Matahari Gakeliatan"),
+        }
+    }
+}
+
+#[test]
+fn kondisi_cuaca() {
+    let result = Cuaca::Mendung(String::from("Berkabut"));
+    result.tampilkan();
+    let result1 = Cuaca::Cerah;
+    result1.tampilkan();
+    let result2 = Cuaca::Hujan(17);
+    result2.tampilkan()
 }
