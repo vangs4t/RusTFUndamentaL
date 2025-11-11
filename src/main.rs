@@ -1,5 +1,18 @@
-use core::num;
-use std::{ops::Index, path::StripPrefixError};
+mod model {
+    pub struct Admin{
+       pub username: String,
+       pub password: String,
+       pub pin: u32,
+    }
+
+    impl Admin {
+       pub fn login(&self, sandi: &str) {
+            if self.password.eq("admin"){
+                println!("Selamat datang")
+            }
+        }
+    }
+}
 
 struct User {
     nama: String,
@@ -7,12 +20,13 @@ struct User {
 }
 
 fn main() {
-    let user = User {
-        nama: String::from("Naufal"),
-        umur: 23,
+    let atmin = model::Admin{
+        username: String::from("admin"),
+        password: String::from("admin"),
+        pin: 5778,
     };
 
-    println!("{} berumur {}", user.nama, user.umur);
+    atmin.login("admin");
 }
 
 #[test]
@@ -497,5 +511,20 @@ fn rust_guard_pattern() {
 
         None => println!("Nothing"),
         Some(x) => println!("Kanjut? {}",x),
+    }
+}
+
+type Age = u32;
+type Address = String;
+
+#[test]
+fn tipe_alias() {
+    let umur: Age = 51;
+    let alamat :Address = String::from("Kuningan");
+
+    match umur {
+        1..=29 => println!("Jangan Sok ngajarin!"),
+        30..=50 => println!("Maaf saya yang salah!"),
+        0_u32 | 51_u32..=u32::MAX => println!("Tailo"),
     }
 }
